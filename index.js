@@ -1,4 +1,4 @@
-// Declaring necessary variables, objects and classes.
+// Declarações necessárias de variáveis, objetos e classes.
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -22,13 +22,13 @@ class Game {
   }
 }
 
-// Função que inicia o jogo, inserindo as caixas e o placar
+// Função que inicia o jogo, inserindo as caixas e o placar.
 function startGame() {
   const game = new Game();
   const box = new Boxes();
 }
 
-// Função que anima o jogo, atualizando o lugar de cada elemento
+// Função que anima o jogo, atualizando o lugar de cada elemento.
 function updateGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame;
@@ -36,10 +36,10 @@ function updateGame() {
 
 // O core loop do jogo:
 
-// Função que fica pingando a caixa nas laterais do canvas
+// Função que fica pingando a caixa nas laterais do canvas.
 function bounceMode() {}
 
-// Função que solta a caixa do "bounceMode"
+// Função que solta a caixa do "bounceMode" e detecta ou não a colisão entre elas.
 function releaseMode() {}
 
 // Função que faz todas as verificações:
