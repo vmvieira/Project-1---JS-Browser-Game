@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.text-section {
+}
+
+.canvas-section {
+}
+
+canvas {
+  border: 1px solid red;
+}
