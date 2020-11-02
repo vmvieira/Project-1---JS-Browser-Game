@@ -5,11 +5,11 @@
   align-items: center;
 }
 
-.text-section {
+/* .text-section {
 }
 
 .canvas-section {
-}
+} */
 
 canvas {
   border: 1px solid red;
