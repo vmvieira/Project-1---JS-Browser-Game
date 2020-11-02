@@ -3,11 +3,6 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// ctx.fillStyle = "blue";
-// ctx.fillRect(50, 50, 400, 50);
-// ctx.fillStyle = "black";
-// ctx.fillRect(300, canvas.height - 50, 400, 50);
-
 class Game {
   constructor(topBox, botBox) {
     this.topBox = topBox;
@@ -21,9 +16,11 @@ class Game {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.topBox.draw();
     this.topBox.bounce();
+    this.topBox.release();
     this.botBox.draw();
     //this.updateScore(this.score)
     this.animationId = requestAnimationFrame(this.updateGame);
+    console.log(this.topBox);
   };
 }
 
@@ -54,69 +51,34 @@ class Box {
     ctx.fillStyle = "blue";
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
+
+  release() {
+    if (this.gameMode == "release") {
+      this.y += this.ySpeed;
+    }
+    if (this.ySpeed > 0 && this.y == canvas.height - 100) {
+      this.ySpeed = 0;
+    }
+  }
 }
 
 window.onload = () => {
-  document.getElementById("canvas").onclick = () => {
+  document.getElementById("start-button").onclick = () => {
     startGame();
   };
 
   function startGame() {
     const game = new Game(
-      (topBox = new Box(50, 50, 400, 50, 2, 0, "bounce")),
-      (botBox = new Box(300, canvas.height - 50, 400, 50, "static"))
+      (topBox = new Box(50, 50, 400, 50, 2, 2, "bounce")),
+      (botBox = new Box(300, canvas.height - 50, 400, 50, 0, 0, "static"))
     );
 
     game.updateGame();
   }
+
+  canvas.onpointerdown = function () {
+    if (topBox.gameMode == "bounce") {
+      topBox.gameMode = "release";
+    }
+  };
 };
-
-//     startGame() {
-//       let activeBox = new Boxes(50, 50, 400, 50, 1, 0, "bounce");
-//       let staticBox = new Boxes(300,canvas.height - 50, 400, 50);
-
-//       updateGame();
-//     }
-//     Função que anima o jogo, atualizando o lugar de cada elemento.
-
-//     updateGame() {
-//       ctx.clearRect(0, 0, canvas.width, canvas.height);
-//       this.Boxes.draw();
-//       requestAnimationFrame;
-//     }
-//     draw() {
-//       ctx.fillStyle = "blue";
-//       ctx.fillRect(this.x, this.y, this.width, this.height);
-//     }
-
-//     O core loop do jogo:
-
-//     Função que fica pingando a caixa nas laterais do canvas.
-//     bounceMode() {
-//       Possível versão da função:
-//       if (gameMode == 'bounce') {
-//         this.xSpeed = 1;
-//         if (this.xSpeed > 0 && this.x + this.width > canvas.width) {
-//           this.xSpeed = -1;
-//           }
-//         if (this.xSpeed < 0 && this.X < 0) {
-//           this.xSpeed = 1;
-//           }
-//       }
-//     }
-
-//     Função que solta a caixa do "bounceMode" e detecta ou não a colisão entre elas.
-//     releaseMode() {}
-
-//     Função que faz todas as verificações:
-//     Verifica se o jogo encerrou "gameover" e, caso contrário,
-//     Cria nova caixa, atualiza o placar e retorna o gameMode para o bounceMode
-//     checkMode() {}
-//   }
-
-//   class Game {
-//     constructor(score, frames, animationId) {
-//       this.score = score;
-//       this.frames = frames;
-//       this.animationId;
-//     }
