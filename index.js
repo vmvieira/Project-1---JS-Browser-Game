@@ -8,7 +8,6 @@ class Game {
     this.topBox = topBox;
     this.botBox = botBox;
     this.animationId;
-    this.frames = 0;
     this.score = 0;
   }
 
@@ -18,20 +17,29 @@ class Game {
     this.topBox.bounce();
     this.topBox.release();
     this.botBox.draw();
-    //this.updateScore(this.score)
     this.animationId = requestAnimationFrame(this.updateGame);
     this.boxCheck();
+    this.updateScore(this.score);
+    //this.topBox.newBox();
   };
 
   boxCheck = () => {
     const colided = this.topBox.isColidedWith(botBox);
     if (colided) {
+      cancelAnimationFrame(this.animationId);
       this.topBox.gameMode = "static";
+      this.score += 1;
       let difference = Math.abs(this.topBox.x - this.botBox.x);
       console.log(difference);
-      cancelAnimationFrame(this.animationId);
+      console.log(topBox);
+      //newBox();
     }
-    //newBox();
+  };
+
+  updateScore = (score) => {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText(`Score: ${this.score} `, 25, 200);
   };
 }
 
@@ -51,7 +59,10 @@ class Box {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
-  newBox() {}
+  // newBox() {
+  //   ctx.fillStyle = "red";
+  //   ctx.fillRect(this.x, this.y, this.width - difference, this.height);
+  // }
 
   bounce() {
     if (this.gameMode == "bounce") {
