@@ -20,7 +20,18 @@ class Game {
     this.botBox.draw();
     //this.updateScore(this.score)
     this.animationId = requestAnimationFrame(this.updateGame);
-    console.log(this.topBox);
+    this.boxCheck();
+  };
+
+  boxCheck = () => {
+    const colided = this.topBox.isColidedWith(botBox);
+    if (colided) {
+      this.topBox.gameMode = "static";
+      let difference = Math.abs(this.topBox.x - this.botBox.x);
+      console.log(difference);
+      cancelAnimationFrame(this.animationId);
+    }
+    //newBox();
   };
 }
 
@@ -35,6 +46,13 @@ class Box {
     this.gameMode = gameMode;
   }
 
+  draw() {
+    ctx.fillStyle = "blue";
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  newBox() {}
+
   bounce() {
     if (this.gameMode == "bounce") {
       this.x += this.xSpeed;
@@ -47,18 +65,37 @@ class Box {
     }
   }
 
-  draw() {
-    ctx.fillStyle = "blue";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-
   release() {
     if (this.gameMode == "release") {
       this.y += this.ySpeed;
     }
-    if (this.ySpeed > 0 && this.y == canvas.height - 100) {
-      this.ySpeed = 0;
-    }
+  }
+
+  left() {
+    return this.x;
+  }
+
+  right() {
+    return this.x + this.width;
+  }
+
+  top() {
+    return this.y;
+  }
+
+  bottom() {
+    return this.y + this.height;
+  }
+
+  isColidedWith(botBox) {
+    const condition = !(
+      this.bottom() < botBox.top() ||
+      this.top() > botBox.bottom() ||
+      this.right() < botBox.left() ||
+      this.left() > botBox.right()
+    );
+
+    return condition;
   }
 }
 
