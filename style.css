@@ -63,6 +63,9 @@ body {
 .text-section {
   color: white;
   text-align: center;
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073,
+    0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  animation: animate 3s ease-in-out infinite alternate;
 }
 
 a {
@@ -75,6 +78,7 @@ a {
   justify-content: center;
   align-items: center;
   font-size: x-large;
+  font-weight: 900;
 }
 
 .rgb-box {
@@ -83,16 +87,6 @@ a {
   background: black;
   border: solid coral;
   animation: animate 3s infinite;
-}
-
-@keyframes animate {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-
-  100% {
-    filter: hue-rotate(360deg);
-  }
 }
 
 .rgb-box:before {

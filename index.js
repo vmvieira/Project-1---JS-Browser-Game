@@ -4,41 +4,52 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 class Game {
-  constructor(topBox, botBox) {
-    this.topBox = topBox;
-    this.botBox = botBox;
+  constructor(movingBox, botBox) {
     this.animationId;
     this.score = 0;
+    this.movingBox = movingBox;
+    this.boxes = [];
+    this.boxes[0] = botBox;
+    this.nextBoxWidth = 0;
   }
 
   updateGame = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.topBox.draw();
-    this.topBox.bounce();
-    this.topBox.release();
-    this.botBox.draw();
+    this.movingBox.draw();
+    this.movingBox.bounce();
+    this.movingBox.release();
+    this.boxes.map((currentBox) => {
+      currentBox.draw();
+    });
     this.animationId = requestAnimationFrame(this.updateGame);
     this.boxCheck();
     this.updateScore(this.score);
-    //this.topBox.newBox();
   };
 
   boxCheck = () => {
-    const colided = this.topBox.isColidedWith(botBox);
+    let topBox = this.boxes[this.boxes.length - 1];
+    const colided = this.movingBox.isColidedWith(topBox);
+
     if (colided) {
-      cancelAnimationFrame(this.animationId);
-      this.topBox.gameMode = "static";
+      this.movingBox.gameMode = "static";
+      this.boxes.push(this.movingBox);
       this.score += 1;
-      let difference = Math.abs(this.topBox.x - this.botBox.x);
-      console.log(difference);
-      console.log(topBox);
-      //newBox();
+      let difference = Math.abs(this.movingBox.x - topBox.x);
+      let newBoxWidth = this.movingBox.width - difference;
+      this.movingBox = new Box(50, 50, newBoxWidth, 50, 2, 2, "bounce");
+      topBox.width = topBox.width - difference;
+      if (this.boxes.length > 3) {
+        this.boxes.shift();
+        this.boxes.forEach((box) => {
+          box.y += box.height;
+        });
+      }
     }
   };
 
   updateScore = (score) => {
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "black";
+    ctx.font = "normal normal bold 40px sans-serif";
+    ctx.fillStyle = "blue";
     ctx.fillText(`Score: ${this.score} `, 25, 200);
   };
 }
@@ -117,16 +128,15 @@ window.onload = () => {
 
   function startGame() {
     const game = new Game(
-      (topBox = new Box(50, 50, 400, 50, 2, 2, "bounce")),
-      (botBox = new Box(300, canvas.height - 50, 400, 50, 0, 0, "static"))
+      new Box(50, 50, 400, 50, 2, 2, "bounce"),
+      new Box(300, canvas.height - 50, 400, 50, 0, 0, "static")
     );
 
     game.updateGame();
+    canvas.onpointerdown = function () {
+      if (game.movingBox.gameMode == "bounce") {
+        game.movingBox.gameMode = "release";
+      }
+    };
   }
-
-  canvas.onpointerdown = function () {
-    if (topBox.gameMode == "bounce") {
-      topBox.gameMode = "release";
-    }
-  };
 };
