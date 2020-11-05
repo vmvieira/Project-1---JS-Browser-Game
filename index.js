@@ -42,10 +42,14 @@ class Game {
       }
       let difference = Math.abs(this.movingBox.x - topBox.x);
       let newBoxWidth = this.movingBox.width - difference;
-      this.movingBox.width -= difference;
+      if (this.movingBox.x > topBox.x) {
+        this.movingBox.width -= difference;
+      } else {
+        this.movingBox.x = topBox.x;
+        this.movingBox.width -= difference;
+      }
       this.movingBox = new Box(50, 50, newBoxWidth, 50, speedInc, 3, "bounce");
-      //topBox.width = topBox.width - difference;
-      console.log(this.movingBox);
+
       if (this.boxes.length > 4) {
         this.boxes.shift();
         this.boxes.forEach((box) => {
