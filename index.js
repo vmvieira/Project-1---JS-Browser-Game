@@ -34,11 +34,18 @@ class Game {
       this.movingBox.gameMode = "static";
       this.boxes.push(this.movingBox);
       this.score += 1;
+      let speedInc = this.movingBox.xSpeed;
+      if (speedInc > 0) {
+        speedInc += 2;
+      } else if (speedInc < 0) {
+        speedInc -= 2;
+      }
       let difference = Math.abs(this.movingBox.x - topBox.x);
       let newBoxWidth = this.movingBox.width - difference;
-      this.movingBox = new Box(50, 50, newBoxWidth, 50, 2, 2, "bounce");
+      this.movingBox = new Box(50, 50, newBoxWidth, 50, speedInc, 2, "bounce");
       topBox.width = topBox.width - difference;
-      if (this.boxes.length > 3) {
+      console.log(this.movingBox);
+      if (this.boxes.length > 4) {
         this.boxes.shift();
         this.boxes.forEach((box) => {
           box.y += box.height;
@@ -69,11 +76,6 @@ class Box {
     ctx.fillStyle = "blue";
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
-
-  // newBox() {
-  //   ctx.fillStyle = "red";
-  //   ctx.fillRect(this.x, this.y, this.width - difference, this.height);
-  // }
 
   bounce() {
     if (this.gameMode == "bounce") {
