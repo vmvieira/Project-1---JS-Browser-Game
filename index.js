@@ -29,7 +29,7 @@ class Game {
   boxCheck = () => {
     let topBox = this.boxes[this.boxes.length - 1];
     const colided = this.movingBox.isColidedWith(topBox);
-
+    let difference = Math.abs(this.movingBox.x - topBox.x);
     if (colided) {
       this.movingBox.gameMode = "static";
       this.boxes.push(this.movingBox);
@@ -51,6 +51,17 @@ class Game {
           box.y += box.height;
         });
       }
+    } else if (
+      this.movingBox.gameMode == "release" &&
+      difference > topBox.width
+    ) {
+      ctx.font = "normal normal bold 20px sans-serif";
+      ctx.fillStyle = "blue";
+      ctx.fillText(
+        "Game over! Press the start game button above to play again!",
+        200,
+        100
+      );
     }
   };
 
