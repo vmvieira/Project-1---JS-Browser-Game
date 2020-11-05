@@ -3,7 +3,7 @@
 Ironhack - Project 1 - RGB Stacker
 _RGB Stacker_ is a game built in HTML, CSS, canvas and JavaScript.
 
-> Click [HERE](link/) to play!
+> Click [HERE](https://vmvieira.github.io/Project-1---RGB-Stacker/) to play!
 
 ## INSTALLATION
 
