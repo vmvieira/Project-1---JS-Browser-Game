@@ -36,14 +36,15 @@ class Game {
       this.score += 1;
       let speedInc = this.movingBox.xSpeed;
       if (speedInc > 0) {
-        speedInc += 2;
+        speedInc += 1.5;
       } else if (speedInc < 0) {
-        speedInc -= 2;
+        speedInc -= 1.5;
       }
       let difference = Math.abs(this.movingBox.x - topBox.x);
       let newBoxWidth = this.movingBox.width - difference;
-      this.movingBox = new Box(50, 50, newBoxWidth, 50, speedInc, 2, "bounce");
-      topBox.width = topBox.width - difference;
+      this.movingBox.width -= difference;
+      this.movingBox = new Box(50, 50, newBoxWidth, 50, speedInc, 3, "bounce");
+      //topBox.width = topBox.width - difference;
       console.log(this.movingBox);
       if (this.boxes.length > 4) {
         this.boxes.shift();
@@ -141,7 +142,7 @@ window.onload = () => {
 
   function startGame() {
     const game = new Game(
-      new Box(50, 50, 400, 50, 2, 2, "bounce"),
+      new Box(50, 50, 400, 50, 2, 3, "bounce"),
       new Box(300, canvas.height - 50, 400, 50, 0, 0, "static")
     );
 
